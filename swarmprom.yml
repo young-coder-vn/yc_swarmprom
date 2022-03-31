@@ -23,6 +23,8 @@ configs:
     file: ./prometheus/rules/swarm_task.rules.yml
   prometheus_config:
     file: ./prometheus/conf/prometheus.yml
+  telegraf_config:
+    file: ${PWD}/conf/telegraf.conf
 
 services:
   dockerd-exporter:
@@ -253,8 +255,9 @@ services:
       - default
       - net
       - traefik-public
-    volumes:
-      - ${PWD}/conf/telegraf.conf:/etc/telegraf/telegraf.conf
+    configs:
+      - source: telegraf_config
+        target: /etc/telegraf/telegraf.conf
     restart: always
     privileged: false
     logging:
