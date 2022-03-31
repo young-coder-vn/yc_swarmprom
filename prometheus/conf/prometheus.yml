@@ -40,6 +40,7 @@ scrape_configs:
       - 'tasks.node-exporter'
       type: 'A'
       port: 9100
+      
   - job_name: 'gcall-actuator'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
