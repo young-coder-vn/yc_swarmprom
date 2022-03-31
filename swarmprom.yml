@@ -21,6 +21,8 @@ configs:
     file: ./prometheus/rules/swarm_node.rules.yml
   task_rules:
     file: ./prometheus/rules/swarm_task.rules.yml
+  prometheus_config:
+    file: ./prometheus/conf/prometheus.yml
 
 services:
   dockerd-exporter:
@@ -209,6 +211,8 @@ services:
     volumes:
       - prometheus:/prometheus
     configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
       - source: node_rules
         target: /etc/prometheus/swarm_node.rules.yml
       - source: task_rules
