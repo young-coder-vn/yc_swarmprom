@@ -47,10 +47,10 @@ scrape_configs:
     static_configs:
       - targets: ['10.110.81.52:8090']
       
-  - job_name: 'mysql-monitor'
-    static_configs:
-      - targets: ['10.110.81.52:9104']
-        labels:
-          alias: db1
+  # - job_name: 'mysql-monitor'
+  #   static_configs:
+  #     - targets: ['10.110.81.52:9104']
+  #       labels:
+  #         alias: db1
 
 
