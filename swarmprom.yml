@@ -320,3 +320,34 @@ services:
         - traefik.http.routers.swarmprom-influxdb-https.tls.certresolver=le
         - traefik.http.services.swarmprom-prometheus.loadbalancer.server.port=8086
 
+  mysqld-exporter:
+    image: prom/mysqld-exporter
+    ports:
+      - 9104:9104
+    networks:
+      - default
+      - net
+      - traefik-public
+    environment:
+      - DATA_SOURCE_NAME='root:Gchat@2021@(10.110.81.53:3306)/'
+    privileged: false
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.swarmprom-mysqld-exporter-http.rule=Host(`mysqld-exporter.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.swarmprom-mysqld-exporter-http.entrypoints=http
+        - traefik.http.routers.swarmprom-mysqld-exporter-http.middlewares=https-redirect
+        - traefik.http.routers.swarmprom-mysqld-exporter-https.rule=Host(`mysqld-exporter.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.swarmprom-mysqld-exporter-https.entrypoints=https
+        - traefik.http.routers.swarmprom-mysqld-exporter-https.tls=true
+        - traefik.http.routers.swarmprom-mysqld-exporter-https.tls.certresolver=le
+        - traefik.http.services.swarmprom-prometheus.loadbalancer.server.port=9104
