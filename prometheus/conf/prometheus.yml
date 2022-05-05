@@ -45,12 +45,6 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
-      - targets: ['10.110.81.52:8090']
-      
-  - job_name: 'mysql-monitor'
-    static_configs:
-      - targets: ['10.110.81.53:9104']
-        labels:
-          alias: db1
+      - targets: ['10.110.78.9:9090']
 
 
